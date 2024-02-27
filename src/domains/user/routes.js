@@ -5,7 +5,8 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('./model');
 const jwt = require("jsonwebtoken");
-const generateUsername = require('../../utils/names'); 
+const generateUsername = require('../../utils/names');
+
 
 
 
@@ -89,21 +90,49 @@ router.post('/login', async (req, res) => {
     const accessToken = jwt.sign({ userId: user._id, userName: user.userName }, process.env.JWT_SECRET, {
       expiresIn: maxAge
     });
-    res.cookie('jwt', accessToken, { httpOnly: true, maxAge: maxAge * 1000, sameSite: 'none', secure: true});
+    res.cookie('jwt', accessToken, { httpOnly: true, maxAge: maxAge * 1000, secure: true, sameSite: 'none'});
     res.status(200).json({ 
       message: 'Login successful',
       token: accessToken,
-      user: user._id, 
+      userId: user._id, 
+      userName: user.userName,
     });
     console.log('User logged in:', user.userName);
-    if (user.userName === 'admin') {
-      console.log('Admin logged in');
-    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+// Define a route to get a fully populated user object
+// Define the getUser route
+router.get('/getUser', async (req, res) => {
+  try {
+    // Extract JWT token from the cookies
+    const token = req.cookies.jwt;
+
+    console.log('Token:', token);
+
+    // Verify and decode the JWT token
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decodedToken.userId;
+
+    // Fetch user data from the database using the decoded user ID
+    const user = await User.findById(userId);
+
+    // Check if the user exists
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Respond with the fully populated user object
+    res.status(200).json({ user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
 
     
@@ -133,6 +162,23 @@ router.get('/:id', async (req, res) => {
   }
 });
    
+// GET endpoint to fetch user data
+router.get('/getUser', async (req, res) => {
+  try {
+    // Extract user ID from request parameters
+    const { userId } = req.params;
+
+    // Fetch user from the database
+    const user = await User.findById(userId, { password: 0, airdropReceived: 0, transactions: 0});
+
+    // Respond with the user
+    res.status(200).json(user);
+  } catch (error) {
+    // Handle errors
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 
 

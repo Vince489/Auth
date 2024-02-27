@@ -7,3 +7,34 @@ Content-Type: application/json
   "userName": "test",
   "password": "1234"
 }
+
+
+###
+// Getuser 
+GET http://localhost:4300/api/v1/user/getUser
+
+###
+// Register
+POST http://localhost:4300/api/v1/user/register
+Content-Type: application/json
+
+{
+  "userName": "test",
+  "password": "1234"
+}
+
+###
+// Login
+POST http://localhost:4300/api/v1/user/login
+Content-Type: application/json
+
+{
+  "userName": "test",
+  "password": "1234"
+}
+
+
+
+###
+// Get user info
+GET http://localhost:4300/api/v1/user
