@@ -136,8 +136,6 @@ router.get('/getUser', async (req, res) => {
   }
 });
 
-
-
     
 
 // Logout endpoint
