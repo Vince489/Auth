@@ -139,10 +139,11 @@ router.get('/getUser', async (req, res) => {
   
 // Logout endpoint
 router.get('/logout', (req, res) => {
-  res.cookie('jwt', '', { expires: new Date(0) }); // Set cookie expiration to a past date
+  res.cookie('jwt', '', { maxAge: 1 })  
   res.status(200).json({ message: 'Logout successful' });
   console.log('User logged out');
 });
+
 
 
 // Get user by ID endpoint
