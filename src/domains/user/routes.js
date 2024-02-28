@@ -139,7 +139,7 @@ router.get('/getUser', async (req, res) => {
   
 // Logout endpoint
 router.get('/logout', (req, res) => {
-  res.cookie('jwt', '', { maxAge: 1 })  
+  res.clearCookie('jwt')  
   res.status(200).json({ message: 'Logout successful' });
   console.log('User logged out');
 });
