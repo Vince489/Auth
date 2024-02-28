@@ -66,6 +66,63 @@ router.post('/register', async (req, res) => {
   }
 });
 
+// Signup endpoint2
+// router.post('/register', async (req, res) => {
+//   try {
+//     // Extract user data from request body
+//     const { userName, password } = req.body;
+
+//     // Validation
+//     if (!userName || !password) {
+//       return res.status(400).json({ message: 'Username and password are required' });
+//     }
+
+//     // Check username format
+//     const userNameRegex = /^[a-zA-Z0-9]+$/;
+//     if (!userNameRegex.test(userName)) {
+//       return res.status(400).json({ message: 'Invalid username format. Username can only contain letters and numbers.' });
+//     }
+
+//     // Check password length
+//     if (password.length < 8) {
+//       return res.status(400).json({ message: 'Password must be at least 8 characters long' });
+//     }
+
+//     // Generate unique codeName
+//     const codeName = await generateUsername(); 
+
+//     // Check if user already exists
+//     const existingUser = await User.findOne({ userName });
+//     if (existingUser) {
+//       return res.status(400).json({ message: 'User already exists' });
+//     }
+
+//     // Hash the password
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     // Create new user
+//     const newUser = new User({
+//       userName,
+//       codeName,
+//       password: hashedPassword
+//     });
+
+//     // Save the user to the database
+//     await newUser.save();
+
+//     // Respond with success message
+//     res.status(201).json({ 
+//       message: 'User created successfully',
+//       codeName: newUser.codeName,
+//     });
+//   } catch (error) {
+//     // Handle errors
+//     console.error(error);
+//     res.status(500).json({ message: 'Internal server error' });
+//   }
+// });
+
+
 // Login endpoint
 router.post('/login', async (req, res) => {
   try {
@@ -99,6 +156,7 @@ router.post('/login', async (req, res) => {
     res.status(200).json({ 
       message: 'Login successful',
       token: accessToken,
+      user: user,
       userId: user._id, 
       userName: user.userName,
     });
@@ -139,10 +197,22 @@ router.get('/getUser', async (req, res) => {
   
 // Logout endpoint
 router.get('/logout', (req, res) => {
-  res.clearCookie('jwt')  
-  res.status(200).json({ message: 'Logout successful' });
-  console.log('User logged out');
+  try {
+    // Clear the JWT cookie
+    res.clearCookie('jwt');
+
+    // Respond with success message
+    res.status(200).json({ message: 'Logout successful' });
+
+    // Log user logout
+    console.log('User logged out');
+  } catch (error) {
+    // Handle errors
+    console.error('Error occurred during logout:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
+
 
 
 
