@@ -90,7 +90,12 @@ router.post('/login', async (req, res) => {
     const accessToken = jwt.sign({ userId: user._id, userName: user.userName }, process.env.JWT_SECRET, {
       expiresIn: maxAge
     });
-    res.cookie('jwt', accessToken, { httpOnly: true, maxAge: maxAge * 1000, secure: true, sameSite: 'none'});
+    res.cookie('jwt', accessToken, { 
+      httpOnly: true, 
+      maxAge: maxAge * 1000, 
+      secure: true, 
+      sameSite: 'none'
+    });
     res.status(200).json({ 
       message: 'Login successful',
       token: accessToken,
@@ -110,8 +115,6 @@ router.get('/getUser', async (req, res) => {
   try {
     // Extract JWT token from the cookies
     const token = req.cookies.jwt;
-
-    console.log('Token:', token);
 
     // Verify and decode the JWT token
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
