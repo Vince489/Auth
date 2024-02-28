@@ -136,8 +136,7 @@ router.get('/getUser', async (req, res) => {
   }
 });
 
-    
-
+  
 // Logout endpoint
 router.get('/logout', (req, res) => {
   res.cookie('jwt', '', { expires: new Date(0) }); // Set cookie expiration to a past date
