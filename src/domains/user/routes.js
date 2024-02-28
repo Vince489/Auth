@@ -144,8 +144,6 @@ router.get('/logout', (req, res) => {
   console.log('User logged out');
 });
 
-
-
 // Get user by ID endpoint
 router.get('/:id', async (req, res) => {
   try {
