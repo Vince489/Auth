@@ -1,16 +1,4 @@
 
-
-POST https://auth-production-9197.up.railway.app/api/v1/user/register
-Content-Type: application/json
-
-{
-  "userName": "test",
-  "password": "1234"
-}
-###
-//Get all users
-GET https://auth-production-9197.up.railway.app/api/v1/user
-
 ###
 // Get all users
 GET http://localhost:4300/api/v1/user
@@ -35,7 +23,7 @@ POST http://localhost:4300/api/v1/user/login
 Content-Type: application/json
 
 {
-  "userName": "test",
+  "userName": "wer",
   "password": "1234"
 }
 
