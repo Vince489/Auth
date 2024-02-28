@@ -9,7 +9,7 @@ const cookieParser = require("cookie-parser");
 const app = express();
 
 const corsOptions = {
-  origin: ["http://localhost:3000", "https://zprompter.com", "https://virtronboxing.club", "https://virtron-beta.netlify.app", "https://virtron-beta.netlify.app/"],
+  origin: ["http://localhost:3000", "http://localhost:4300", "https://zprompter.com", "https://virtronboxing.club", "https://virtron-beta.netlify.app", "https://virtron-beta.netlify.app/"],
   credentials: true,
 };
 
